@@ -8,15 +8,15 @@ run();
 async function run() {
   try {
     const toy = new Product({
-      name: "Pikachu",
-      category: "Toys",
+      name: "6 Foot Sub",
+      category: "Food",
       isActive: true,
       details: {
-        description: "A cute toy for children",
-        price: 30,
+        description: "A delicious sandwich with yumminess",
+        price: 200,
         images: ["image1.jpg", "image2.jpg"],
       },
-      phoneNumber: "054-7776666",
+      phoneNumber: "04-7778888",
     });
 
     await toy.save();

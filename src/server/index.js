@@ -14,13 +14,24 @@ mongoose.connect(producturi, () => console.log("connected mongoose"));
 
 app.use(express.json());
 
+// Get all products
 app.get("/", async (req, res) => {
   try {
-    const allProducts = await Product.findById("61e7f1c78c22829f996a4d88");
-    // console.log(allProducts);
-    res.send(allProducts);
+    const allProducts = await Product.find({});
+    res.status(200).send(allProducts);
   } catch (err) {
-    console.log(err.message);
+    res.status(400).send(err.message);
+  }
+});
+
+// Get product by id
+app.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const allProducts = await Product.findById(id);
+    res.status(200).send(allProducts);
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 });
 
