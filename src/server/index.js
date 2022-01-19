@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 mongoose.connect(producturi, () => console.log("connected mongoose"));
 
 app.use(express.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // Get all products
 app.get("/", async (req, res) => {
@@ -53,6 +53,19 @@ app.post("/toggle-active/:id", async (req, res) => {
   try {
     const product = await Product.findById(id);
     product.isActive = !product.isActive;
+    await product.save();
+    res.status(200).send(product);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Update discount for product (via body)
+app.post("/update-discount", async (req, res) => {
+  const { id, newDiscount } = req.body;
+  try {
+    const product = await Product.findById(id);
+    product.details.discount = newDiscount;
     await product.save();
     res.status(200).send(product);
   } catch (err) {
