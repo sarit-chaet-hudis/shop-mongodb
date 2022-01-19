@@ -40,8 +40,21 @@ app.get("/price-range", async (req, res) => {
 app.get("/get-product/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const allProducts = await Product.findById(id);
-    res.status(200).send(allProducts);
+    const product = await Product.findById(id);
+    res.status(200).send(product);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Update product- toggle active status
+app.post("/toggle-active/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const product = await Product.findById(id);
+    product.isActive = !product.isActive;
+    await product.save();
+    res.status(200).send(product);
   } catch (err) {
     res.status(400).send(err.message);
   }
